@@ -1,71 +1,224 @@
-###################
-What is CodeIgniter
-###################
+	set up the two CodeIgniter projects, where one exposes data via a REST API and the other consumes it
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+Step:	Headings 	Details
+TS00.47	Download Code igniter 	https://codeigniter.com/userguide3/installation/downloads.html
 
-*******************
-Release Information
-*******************
+TS 00.48	Copy paste in htdocs folder in Xampp	C:\xampp\htdocs\6_api\funda_api_s1\application\controllers\Welcome.php
+C:\xampp\htdocs\1_api
+http://localhost/1_api/funda/
+	1. First Project (API Provider)	
+	Download the Required file 	1.	RestController.php
+2.	Rest_controller_lang.php
+3.	Rest.php
+4.	Format.php
+https://www.fundaofwebit.com/post/codeigniter-3-restful-api-tutorial-using-postman#google_vignette
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
 
-**************************
-Changelog and New Features
-**************************
+	Paste the language file in language folder 	C:\xampp\htdocs\6_api\funda_api_s1\application\language\english\rest_controller_lang.php
+	Code are here 	
+	Copy the( rest.php ) and pestle the following path	C:\xampp\htdocs\6_api\funda_api_s1\application\config\rest.php
+	Code are here	
+	Copy the restContrer.php & Format.php int he following path	C:\xampp\htdocs\6_api\funda_api_s1\application\libraries\RestController.php
+C:\xampp\htdocs\6_api\funda_api_s1\application\libraries\Format.php
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+		
+	`Composer check	Open >new terminal>
+Write “Composer”
 
-*******************
-Server Requirements
-*******************
+	Call page through composer 
+	php -S localhost:8000
+	Call the page 	http://localhost:8000
 
-PHP version 5.6 or newer is recommended.
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+		 
+	Controller create : 
+C:\xampp\htdocs\1_api\API_Provider\application\controllers\ApiDemo.php
+	1. First Project (API Provider)
+In your first project, you have the controller ApiDemoController. Let's refine it a bit by preparing to send data.
+ApiDemoController:
+php
+Copy code
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-************
-Installation
-************
+require APPPATH . 'libraries/RestController.php';
+require APPPATH . 'libraries/Format.php';
 
-Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
-of the CodeIgniter User Guide.
+use chriskacerguis\RestServer\RestController;
 
-*******
-License
-*******
+class ApiDemo extends RestController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        // Load models if necessary
+    }
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+    public function users_get()
+    {
+        // Sample data that will be returned as JSON
+        $users = [
+            ['id' => 1, 'name' => 'John Doe', 'email' => 'john@example.com'],
+            ['id' => 2, 'name' => 'Jane Smith', 'email' => 'jane@example.com']
+        ];
 
-*********
-Resources
-*********
+        // Respond with data and HTTP status code
+        $this->response($users, RestController::HTTP_OK);
+    }
+}
+?>
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Contributing Guide <https://github.com/bcit-ci/CodeIgniter/blob/develop/contributing.md>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
+•	 Explanation:
+o	The users_get function returns a list of users as JSON.
+o	You could modify this to fetch data from your database using models.
+	Route create 
+	$route['api'] = 'ApiDemo/users';
+C:\xampp\htdocs\1_api\API_Provider\application\config\routes.php
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+		
+	Call the page	http://localhost:8000/api
+		 
+		
+	2. Second Project (API Consumer)
+In the second project, you need to make an HTTP request to the first project's API and handle the response.
+	
+	ApiClientController:	C:\xampp\htdocs\1_api\API_Consumer\application\controllers\ApiClientController.php
 
-***************
-Acknowledgement
-***************
+		
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+class ApiClientController extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function get_users()
+    {
+        // The API URL of the first project
+        $api_url = 'http://localhost:8000/api';
+
+        // Initialize cURL session
+        $ch = curl_init();
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Execute the cURL request
+        $response = curl_exec($ch);
+
+        // Check for errors
+        if ($response === false) {
+            echo "cURL Error: " . curl_error($ch);
+        } else {
+            // Decode the response
+            $data['users'] = json_decode($response, true);
+
+            // Load view and pass the data (You can replace 'users_view' with your actual view)
+            $this->load->view('users_view', $data);
+        }
+
+        // Close the cURL session
+        curl_close($ch);
+    }
+}
+?>
+
+
+	View to Display Data (users_view.php)	C:\xampp\htdocs\1_api\API_Consumer\application\views\users_view.php
+
+		<html>
+<head>
+    <title>Users List</title>
+</head>
+<body>
+    <h1>List of Users</h1>
+    <ul>
+        <?php if (!empty($users)) : ?>
+            <?php foreach ($users as $user) : ?>
+                <li><?php echo $user['name']; ?> (<?php echo $user['email']; ?>)</li>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <li>No users found.</li>
+        <?php endif; ?>
+    </ul>
+</body>
+</html>
+
+
+	Second Project (Client Routes):
+In application/config/routes.php, add the route for the client:
+	$route['client/get_users'] = 'ApiClientController/get_users';
+
+
+	Run the composer	php -S localhost:8080
+ 
+	Call the page 	http://localhost:8080/client/get_users
+		 
+		
+		…or create a new repository on the command line
+echo "# API_Consumer" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M master
+git remote add origin https://github.com/Code-with-nandu/API_Consumer.git
+git push -u origin master
+…or push an existing repository from the command line
+git remote add origin https://github.com/Code-with-nandu/API_Consumer.git
+git branch -M master
+git push -u origin master
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
