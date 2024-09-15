@@ -33,6 +33,10 @@
                     <th>Email</th>
                     <th> Emplyee Details </th>
                     <th> Update Emplyee  </th>
+<<<<<<< HEAD
+=======
+                    <th> Delete Emplyee  </th>
+>>>>>>> krish/2nd
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +50,10 @@
                      
                         <td><button><a href="<?php echo base_url().'get-employee/'.$user['id']; ?>">View This Emplyee</a></button></td>
                         <td><button><a href="<?php echo base_url().'load-update-form/'; ?>">Update Emplyee</a></button></td>
+<<<<<<< HEAD
+=======
+                        <td><button><a href="<?php echo base_url().'delete_employee/'.$user['id']; ?>">Delete This Emplyee</a></button></td>
+>>>>>>> krish/2nd
                     
                     </tr>
                 <?php endforeach; ?>
