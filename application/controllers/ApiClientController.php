@@ -167,4 +167,45 @@ class ApiClientController extends CI_Controller
             }
         }
     }
+ 
+
+    public function delete_employee($id)
+    {
+        // API endpoint (URL of the First Project's API)
+        $url = "http://localhost/1_api/API_Provider/index.php/api/delete/" . $id;
+
+        // Initialize cURL
+        $ch = curl_init($url);
+
+        // Set cURL options for a DELETE request
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+        // Execute the cURL request
+        $response = curl_exec($ch);
+
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            // Redirect to an error page with an error message
+            $this->session->set_flashdata('error', $error);
+            redirect('client/error');
+        } else {
+            curl_close($ch);
+
+            // Decode the API response
+            $api_response = json_decode($response, true);
+
+            // Check the response status from the API
+            if ($api_response['status'] === true) {
+                $this->session->set_flashdata('success', $api_response['message']);
+                redirect('client/get_users'); // Redirect to the URL you specified
+            } else {
+                $this->session->set_flashdata('error', $api_response['message']);
+                redirect('client/error'); // Redirect to an error page
+            }
+        }
+    }
 }
