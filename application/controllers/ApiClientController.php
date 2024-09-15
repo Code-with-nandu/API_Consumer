@@ -167,8 +167,7 @@ class ApiClientController extends CI_Controller
             }
         }
     }
-<<<<<<< HEAD
-=======
+
  
 
     public function delete_employee($id)
@@ -210,5 +209,5 @@ class ApiClientController extends CI_Controller
             }
         }
     }
->>>>>>> krish/2nd
+
 }
