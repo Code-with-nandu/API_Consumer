@@ -55,3 +55,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 $route['client/get_users'] = 'ApiClientController/get_users';
+$route['client/store'] = 'ApiClientController/form';
+
+$route['get-employee/(:num)'] = 'ApiClientController/getEmployeeById/$1';
+
+
+$route['load-update-form'] = 'ApiClientController/load_update_form';  // Route to load the update form
+$route['update-employee'] = 'ApiClientController/update_employee';    // Route to handle form submission

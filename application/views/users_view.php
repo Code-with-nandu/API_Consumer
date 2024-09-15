@@ -21,16 +21,18 @@
     </style>
 </head>
 <body>
-    <h1>List of Users</h1>
+    <h1>List of Users  <button><a href="<?php echo base_url().'client/store'; ?>">Add Employee</a></button></h1>
     <?php if (!empty($users)) : ?>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Emplyee ID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th> Emplyee Details </th>
+                    <th> Update Emplyee  </th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +43,10 @@
                         <td><?php echo htmlspecialchars($user['last_name']); ?></td>
                         <td><?php echo htmlspecialchars($user['phone']); ?></td>
                         <td><?php echo htmlspecialchars($user['email']); ?></td>
+                     
+                        <td><button><a href="<?php echo base_url().'get-employee/'.$user['id']; ?>">View This Emplyee</a></button></td>
+                        <td><button><a href="<?php echo base_url().'load-update-form/'; ?>">Update Emplyee</a></button></td>
+                    
                     </tr>
                 <?php endforeach; ?>
             </tbody>
