@@ -66,3 +66,5 @@ $route['update-employee'] = 'ApiClientController/update_employee';    // Route t
 
 $route['delete_employee/(:num)'] = 'ApiClientController/delete_employee/$1';// Route to handle form submission
 
+$route['login'] = 'ApiClientController/login'; // For form submission
+$route['auth-login'] = 'ApiClientController/login_view'; // For showing login form

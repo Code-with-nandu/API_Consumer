@@ -11,6 +11,76 @@ class ApiClientController extends CI_Controller
         $this->load->library('session');
     }
 
+    public function login_view()
+    {
+        // Load the login view
+        $this->load->view('login_form');
+    }
+
+    public function login()
+    {
+        // Get login data from the form
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+
+        // API URL of the First Project (API Provider)
+        $url = "http://localhost/1_api/API_Provider/index.php/auth/login";
+
+        // Prepare data to send to the API Provider
+        $data = array(
+            'username' => $username,
+            'password' => $password
+        );
+
+        // Initialize cURL
+        $ch = curl_init($url);
+
+        // Convert data array to JSON
+        $json_data = json_encode($data);
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($json_data)
+        ));
+
+        // Execute the cURL request and get the response
+        $response = curl_exec($ch);
+
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            // Handle error
+            $this->session->set_flashdata('error', $error);
+            redirect('auth-login'); // Redirect back to login form with error message
+        } else {
+            curl_close($ch);
+
+            // Decode the API response
+            $api_response = json_decode($response, true);
+
+            // Check the response status
+            if (isset($api_response['status']) && $api_response['status'] === true) {
+                // Store the token in the session
+                $this->session->set_userdata('token', $api_response['token']);
+
+                // Redirect to a protected page
+                redirect('client/get_users');
+            } else {
+                // Display error message
+                $this->session->set_flashdata('error', isset($api_response['message']) ? $api_response['message'] : 'Login failed');
+                redirect('auth-login');
+            }
+        }
+    }
+
+
+
     public function get_users()
     {
         // The API URL of the first project
@@ -168,7 +238,7 @@ class ApiClientController extends CI_Controller
         }
     }
 
- 
+
 
     public function delete_employee($id)
     {
@@ -209,5 +279,4 @@ class ApiClientController extends CI_Controller
             }
         }
     }
-
 }
