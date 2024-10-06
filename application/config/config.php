@@ -23,8 +23,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/1_api/API_Consumer/';
+// $config['base_url'] = 'http://localhost/1_api/API_Consumer/';
 
+// $config['base_url'] = '';
+if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    $config['base_url'] = 'http://localhost/1_api/API_Consumer/';
+} else {
+    $config['base_url'] = 'https://krishnendudalui.in.net/API_Consumer/';
+}
+/*
+Change to 'production' for live environment
+*/
+$config['environment'] = 'development'; 
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -36,6 +46,7 @@ $config['base_url'] = 'http://localhost/1_api/API_Consumer/';
 |
 */
 $config['index_page'] = 'index.php';
+
 
 /*
 |--------------------------------------------------------------------------
