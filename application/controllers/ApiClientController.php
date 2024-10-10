@@ -159,10 +159,10 @@ class ApiClientController extends CI_Controller
         }
     }
 
-    public function load_update_form($id)
+    public function load_update_form()
     {
-        $data['id'] = $id; // Pass ID to the view if needed
-        $this->load->view('update_employee_view', $data); // Load the form view
+        // $data['id'] = $id; // Pass ID to the view if needed
+        $this->load->view('update_employee_view'); // Load the form view
     }
 
     public function update_employee()
