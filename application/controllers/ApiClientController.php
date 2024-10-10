@@ -74,33 +74,71 @@ class ApiClientController extends CI_Controller
         }
     }
 
+    // public function get_users()
+    // {
+    //     // Determine the API URL for getting users
+    //     $api_url = $this->config->item('environment') === 'production'
+    //         ? "https://krishnendudalui.in.net/API_Provider/index.php/api"
+    //         : "http://localhost/1_api/API_Provider/index.php/api";
+
+    //     // Initialize cURL session
+    //     $ch = curl_init($api_url);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    //     // Execute the cURL request
+    //     $response = curl_exec($ch);
+
+    //     // Check for errors
+    //     if ($response === false) {
+    //         echo "cURL Error: " . curl_error($ch);
+    //     } else {
+    //         // Decode the response
+    //         $data['users'] = json_decode($response, true);
+    //         // Load view and pass the data
+    //         $this->load->view('users_view', $data);
+    //     }
+
+    //     // Close the cURL session
+    //     curl_close($ch);
+    // }
     public function get_users()
-    {
-        // Determine the API URL for getting users
-        $api_url = $this->config->item('environment') === 'production'
-            ? "https://krishnendudalui.in.net/API_Provider/index.php/api"
-            : "http://localhost/1_api/API_Provider/index.php/api";
+{
+    // Determine the API URL
+    $api_url = $this->config->item('environment') === 'production'
+        ? "https://krishnendudalui.in.net/API_Provider/index.php/api"
+        : "http://localhost/1_api/API_Provider/index.php/api";
 
-        // Initialize cURL session
-        $ch = curl_init($api_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // Initialize cURL session
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        // Execute the cURL request
-        $response = curl_exec($ch);
+    // Execute the cURL request
+    $response = curl_exec($ch);
 
-        // Check for errors
-        if ($response === false) {
-            echo "cURL Error: " . curl_error($ch);
-        } else {
-            // Decode the response
-            $data['users'] = json_decode($response, true);
-            // Load view and pass the data
-            $this->load->view('users_view', $data);
-        }
-
-        // Close the cURL session
-        curl_close($ch);
+    // Check for errors
+    if ($response === false) {
+        echo "cURL Error: " . curl_error($ch);
+        return; // exit if there is an error
     }
+
+    // Log the response for debugging
+    log_message('debug', 'API Response: ' . $response);
+    
+    // Decode the response
+    $data['users'] = json_decode($response, true);
+    
+    // Check if users were returned
+    if (empty($data['users'])) {
+        echo "No users found in the API response.";
+    } else {
+        // Load view and pass the data
+        $this->load->view('users_view', $data);
+    }
+
+    // Close the cURL session
+    curl_close($ch);
+}
+
 
     public function storeEmployee()
     {
