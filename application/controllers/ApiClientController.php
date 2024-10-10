@@ -112,9 +112,8 @@ class ApiClientController extends CI_Controller
         ];
 
         // cURL configuration for POST request to the API
-        $url = $this->config->item('environment') === 'production'
-            ? "https://krishnendudalui.in.net/API_Provider/index.php/api/store"
-            : "http://localhost/1_api/API_Provider/index.php/api/store"; // API endpoint
+        $url = "https://krishnendudalui.in.net/API_Provider/index.php/api/store";
+           
 
         $response = $this->curl->simple_post($url, $data);
 
@@ -142,9 +141,8 @@ class ApiClientController extends CI_Controller
     public function getEmployeeById($id)
     {
         // API URL of the First Project (API Provider)
-        $api_url = $this->config->item('environment') === 'production'
-            ? "https://krishnendudalui.in.net/API_Provider/index.php/api/find/$id"
-            : "http://localhost/1_api/API_Provider/index.php/api/find/$id";
+        $api_url ="https://krishnendudalui.in.net/API_Provider/index.php/api/find/$id";
+          
 
         // Sending GET request to the API provider
         $response = $this->curl->simple_get($api_url);
@@ -179,9 +177,8 @@ class ApiClientController extends CI_Controller
         ];
 
         // API endpoint (URL of the First Project's API)
-        $url = $this->config->item('environment') === 'production'
-            ? "https://krishnendudalui.in.net/API_Provider/index.php/api/update/$id"
-            : "http://localhost/1_api/API_Provider/index.php/api/update/$id";
+        $url = "https://krishnendudalui.in.net/API_Provider/index.php/api/update/$id";
+          
 
         // Initialize cURL
         $ch = curl_init($url);
@@ -224,9 +221,8 @@ class ApiClientController extends CI_Controller
     public function delete_employee($id)
     {
         // API endpoint (URL of the First Project's API)
-        $url = $this->config->item('environment') === 'production'
-            ? "https://krishnendudalui.in.net/API_Provider/index.php/api/delete/$id"
-            : "http://localhost/1_api/API_Provider/index.php/api/delete/$id";
+        $url = "https://krishnendudalui.in.net/API_Provider/index.php/api/delete/$id";
+    
 
         // Initialize cURL
         $ch = curl_init($url);
