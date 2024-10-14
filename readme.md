@@ -104,19 +104,19 @@ This guide will walk you through setting up two CodeIgniter projects: the first 
 
 ### Step 2: Github Link
 
-- 👨‍💻  Github Link [https://github.com/Code-with-nandu/API_Provider](https://github.com/Code-with-nandu/API_Provider)
+- 👨‍💻  Github Link [https://github.com/Code-with-nandu/API_pagination](https://github.com/Code-with-nandu/API_pagination)
 
 
 
 ### Step 3: Full note  Link
 
-- 👨‍💻  Full note  Link [https://docs.google.com/document/d/1-SmuMiY4KijK16ZcypNtkjePOJKUaXt_/edit](https://docs.google.com/document/d/1-SmuMiY4KijK16ZcypNtkjePOJKUaXt_/edit)
+- 👨‍💻  Full note  Link [https://docs.google.com/document/d/12VHRnH4sp3wFcYMTqHlC1SDge9BO0lnd/edit](https://docs.google.com/document/d/12VHRnH4sp3wFcYMTqHlC1SDge9BO0lnd/edit)
 
 
 
 ### Step 4: Short note Link
 
-- 👨‍💻  Short note Link [https://docs.google.com/document/d/1-aO57OuGCFqOabD7Gj_h5sakRFJR9sJr/edit](https://docs.google.com/document/d/1-aO57OuGCFqOabD7Gj_h5sakRFJR9sJr/edit)
+- 👨‍💻  Short note Link [https://docs.google.com/document/d/12myY9mUhz7GqkM43oG2PKkcOx3uSmWBp/edit](https://docs.google.com/document/d/12myY9mUhz7GqkM43oG2PKkcOx3uSmWBp/edit)
 
 
 
